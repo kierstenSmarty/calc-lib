@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
@@ -13,9 +14,9 @@ func main() {
 
 	args := os.Args[1:]
 	err := handler.Handle(args)
-	
+
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 
