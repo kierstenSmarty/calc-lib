@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -34,16 +35,16 @@ func NewHandler(stdout *os.File, calculator *calc.Addition) *Handler {
 
 func (this *Handler) Handle(args []string) error {
 	if len(args) != 2 {
-		return fmt.Errorf("usage: calc [a] [b]")
+		return errWrongNumberOfArgs
 	}
 
 	a, err := strconv.Atoi(args[0])
 	if err != nil {
-		return err
+		return fmt.Errorf("%w: %w", errInvalidArgument, err)
 	}
 	b, err := strconv.Atoi(args[1])
 	if err != nil {
-		return err
+		return fmt.Errorf("%w: %w", errInvalidArgument, err)
 	}
 
 	calculator := &calc.Addition{}
@@ -56,3 +57,6 @@ func (this *Handler) Handle(args []string) error {
 
 	return nil
 }
+
+var errWrongNumberOfArgs = errors.New("usage: calc [a] [b]")
+var errInvalidArgument = errors.New("invalid argument")
